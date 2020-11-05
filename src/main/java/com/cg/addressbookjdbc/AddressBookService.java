@@ -62,4 +62,11 @@ public class AddressBookService {
 		}
 		return null;
 	}
+	
+	public Map<String, Integer> readCountContactsByState(IOService ioService) {
+		if(ioService.equals(IOService.DB_IO)) {
+			return addressBookDBService.getCountByState();
+		}
+		return null;
+	}
 }

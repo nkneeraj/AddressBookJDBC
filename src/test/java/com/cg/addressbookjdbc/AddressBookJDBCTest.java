@@ -28,8 +28,16 @@ public class AddressBookJDBCTest {
 	@Test
 	public void givenContactsData_WhenCountByCity_ShouldReturnProperValue() {
 		AddressBookService service = new AddressBookService();
-//		service.readAddressBookData(IOService.DB_IO);
+		service.readAddressBookData(IOService.DB_IO);
 		Map<String, Integer> countContactsByCity = service.readCountContactsByCity(IOService.DB_IO);
 		Assert.assertTrue(countContactsByCity.get("bhdra").equals(1));
+	}
+	
+	@Test
+	public void givenContactsData_WhenCountByState_ShouldReturnProperValue() {
+		AddressBookService service = new AddressBookService();
+		service.readAddressBookData(IOService.DB_IO);
+		Map<String, Integer> countContactsByState = service.readCountContactsByState(IOService.DB_IO);
+		Assert.assertTrue(countContactsByState.get("rajasthan").equals(3));
 	}
 }

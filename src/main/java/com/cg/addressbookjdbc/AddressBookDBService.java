@@ -97,4 +97,22 @@ public class AddressBookDBService {
 		}
 		return cityToContactsMap;
 	}
+	
+	public Map<String, Integer> getCountByState() {
+		String sql = "SELECT state, COUNT(state) AS count_state FROM addressbook GROUP BY state";
+		Map<String, Integer> stateToContactsMap = new HashMap<>();
+		try(Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			while(result.next()) {
+				String state = result.getString("state");
+				int count = result.getInt("count_state");
+				stateToContactsMap.put(state, count);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return stateToContactsMap;
+	}
 }
