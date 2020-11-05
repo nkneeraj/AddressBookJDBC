@@ -2,6 +2,7 @@ package com.cg.addressbookjdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,6 +12,7 @@ import java.util.List;
 
 public class AddressBookDBService {
 	private static AddressBookDBService abService;
+	private PreparedStatement preparedStatement;
 	public static AddressBookDBService getInstance() {
 		if(abService == null) {
 			abService = new AddressBookDBService();
@@ -59,5 +61,20 @@ public class AddressBookDBService {
 			e.printStackTrace();
 		}
 		return addressBookList;
+	}
+	
+	public int updateAddressBookData_Using_PreparedStatement(String fname, String city) {
+		return this.updateAddressBookDataUsingPreparedStatement(fname, city);
+	}
+	
+	private int updateAddressBookDataUsingPreparedStatement(String fname, String city) {
+		String sql = String.format("update addressbook set city= '%s' where first_name = '%s';", city, fname);
+		try (Connection connection = this.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			return statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }
