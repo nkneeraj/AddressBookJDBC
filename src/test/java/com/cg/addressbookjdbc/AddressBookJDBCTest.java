@@ -1,6 +1,7 @@
 package com.cg.addressbookjdbc;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,4 +24,12 @@ public class AddressBookJDBCTest {
     	boolean result = service.checkAddressBookDataInSyncWithDB("neeraj","bhdra");
 		Assert.assertTrue(result);
     }
+	
+	@Test
+	public void givenContactsData_WhenCountByCity_ShouldReturnProperValue() {
+		AddressBookService service = new AddressBookService();
+//		service.readAddressBookData(IOService.DB_IO);
+		Map<String, Integer> countContactsByCity = service.readCountContactsByCity(IOService.DB_IO);
+		Assert.assertTrue(countContactsByCity.get("bhdra").equals(1));
+	}
 }
