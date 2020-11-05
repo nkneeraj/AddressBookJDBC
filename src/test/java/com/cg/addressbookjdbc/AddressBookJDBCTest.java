@@ -9,12 +9,12 @@ import com.cg.addressbookjdbc.AddressBookService.IOService;
 
 
 public class AddressBookJDBCTest {
-	@Test
-    public void givenEmpPayrollDataInDB_ShouldMatchEmpCount() {
-    	AddressBookService service = new AddressBookService();
-    	List<AddressBookData> addList = service.readAddressBookData(IOService.DB_IO);
-    	Assert.assertEquals(7, addList.size());
-    }
+//	@Test
+//    public void givenEmpPayrollDataInDB_ShouldMatchEmpCount() {
+//    	AddressBookService service = new AddressBookService();
+//    	List<AddressBookData> addList = service.readAddressBookData(IOService.DB_IO);
+//    	Assert.assertEquals(8, addList.size());
+//    }
 	
 	@Test 
     public void givenNewCity_WhenUpdated_shouldMatchWithDB() {
@@ -39,5 +39,14 @@ public class AddressBookJDBCTest {
 		service.readAddressBookData(IOService.DB_IO);
 		Map<String, Integer> countContactsByState = service.readCountContactsByState(IOService.DB_IO);
 		Assert.assertTrue(countContactsByState.get("rajasthan").equals(3));
+	}
+	
+	@Test
+	public void givenNewContact_WhenAdded_ShouldSyncWithDB() {
+		AddressBookService service = new AddressBookService();
+		service.readAddressBookData(IOService.DB_IO);
+		service.addContact("Rakesh", "Mishra", "xyz", "abc", "y", "335501", "1234567890", "abc@gmail.com");
+		boolean result = service.checkAddressBookDataInSyncWithDB("Rakesh", "abc");
+		Assert.assertTrue(result);
 	}
 }
