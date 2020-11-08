@@ -95,4 +95,22 @@ public class AddressBookRESTAPI {
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(200, statusCode);
 	}
+	
+	@Test
+	public void givenEmployeeName_WhenDeleted_ShouldMatch200ResponseAndCount() {
+		AddressBookService service;
+		AddressBookData[] ArrayOfEmps = getAddressBookList();
+		service = new AddressBookService(Arrays.asList(ArrayOfEmps));
+		AddressBookData personData = service.getAddressBookData("jeff");
+		String personJson = new Gson().toJson(personData);
+		RequestSpecification request = RestAssured.given();
+		request.header("Content-Type", "application/json");
+		Response response = request.delete("/persons/" + personData.first_name);
+		int statusCode = response.getStatusCode();
+		Assert.assertEquals(200, statusCode);
+		service.deletePersonData(personData.first_name, IOService.REST_IO);
+		long entries = service.countEntries();
+		Assert.assertEquals(4, entries);
+	}
+
 }
